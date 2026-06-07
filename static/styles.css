@@ -1,0 +1,441 @@
+/* Life is Character Radio - Custom Styles */
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&amp;display=swap');
+
+/* CSS Variables for brand colors */
+:root {
+  --brand-cyan: #00E5FF;
+  --brand-blue: #0099CC;
+  --brand-dark: #006B8F;
+  --brand-navy: #001A2E;
+  --brand-gold: #FFD700;
+  --brand-silver: #C0C0C0;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  color: #ffffff;
+  background-color: #111827;
+}
+
+/* Typography */
+.font-cinematic {
+  font-family: 'Cinzel', 'Georgia', 'Times New Roman', serif;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+  }
+}
+
+@keyframes spotlight {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.2;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Spotlight animation for hero section */
+.hero-spotlight {
+  animation: spotlight 8s ease-in-out infinite;
+}
+
+/* Navigation styles */
+nav {
+  transition: transform 0.3s ease-in-out;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Button hover effects */
+.btn-glow:hover {
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--brand-cyan), var(--brand-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-cyan);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-blue);
+}
+
+/* Focus styles */
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--brand-cyan);
+}
+
+/* Social media icons */
+.social-icon {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.social-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 229, 255, 0.3);
+}
+
+/* Episode card styles */
+.episode-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.episode-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 229, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.episode-card:hover::before {
+  left: 100%;
+}
+
+/* Audio player styles (for future enhancement) */
+.audio-player {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.audio-progress {
+  background: rgba(255, 255, 255, 0.1);
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.audio-progress-fill {
+  background: linear-gradient(90deg, var(--brand-cyan), var(--brand-blue));
+  height: 100%;
+  transition: width 0.1s ease;
+}
+
+/* Modal styles */
+.modal-backdrop {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+/* Loading spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 229, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--brand-cyan);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive video embed */
+.video-responsive {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-responsive iframe,
+.video-responsive object,
+.video-responsive embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Scripture verse styling */
+.scripture-verse {
+  position: relative;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(0, 153, 204, 0.1));
+  border-left: 4px solid var(--brand-cyan);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+.scripture-verse::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  font-size: 3rem;
+  color: var(--brand-cyan);
+  font-family: 'Cinzel', serif;
+  opacity: 0.5;
+}
+
+/* Brand logo glow effect */
+.logo-glow {
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.logo-glow:hover {
+  filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.6));
+}
+
+/* Testimonial styles */
+.testimonial {
+  position: relative;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.testimonial::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(45deg, var(--brand-cyan), var(--brand-blue), var(--brand-cyan));
+  border-radius: 12px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.testimonial:hover::before {
+  opacity: 0.5;
+}
+
+/* Newsletter signup enhancement */
+.newsletter-input {
+  position: relative;
+}
+
+.newsletter-input::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--brand-cyan);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.newsletter-input:focus-within::after {
+  width: 100%;
+}
+
+/* Custom radio/checkbox styles */
+input[type="radio"],
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--brand-cyan);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked,
+input[type="checkbox"]:checked {
+  background: var(--brand-cyan);
+}
+
+input[type="radio"]:checked::after,
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #111827;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Donation amount button styles */
+.donation-amount-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.donation-amount-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.1), transparent);
+  transition: left 0.3s ease;
+}
+
+.donation-amount-btn:hover::before {
+  left: 100%;
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem !important;
+  }
+  
+  .section-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .gradient-text {
+    color: #006B8F !important;
+    -webkit-text-fill-color: #006B8F !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --brand-cyan: #00FFFF;
+    --brand-blue: #0066FF;
+  }
+  
+  .border-brand-cyan\/20 {
+    border-color: var(--brand-cyan) !important;
+  }
+}
+
+/* Dark mode support (already in dark theme, but for future light mode) */
+@media (prefers-color-scheme: light) {
+  /* Future light theme variables can go here */
+}
+
+/* Focus-visible for better keyboard navigation */
+.focus-visible\:ring-brand-cyan:focus-visible {
+  ring-color: var(--brand-cyan);
+}
