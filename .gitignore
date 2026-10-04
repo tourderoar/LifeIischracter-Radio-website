@@ -1,0 +1,90 @@
+# Composer Dependencies
+vendor/
+
+# Log Files
+logs/
+*.log
+
+# User Uploads (keep structure, ignore uploaded files)
+uploads/**/*
+!uploads/.htaccess
+!uploads/**/.gitkeep
+
+# Environment Configuration
+.env
+.env.local
+.env.*.local
+
+# Local Configuration (holds DB + Stripe credentials)
+# Copy includes/config.sample.php to includes/config.php to set up
+includes/config.php
+
+# Local Configuration Overrides
+config.local.php
+includes/config.local.php
+
+# Backup Files
+_backup*/
+*.backup
+*.bak
+*.old
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Temporary Files
+*.tmp
+*.temp
+*.cache
+*.swp
+*.swo
+*~
+
+# PHP Storm
+.phpintel/
+*.iml
+
+# Node.js (if frontend build tools are added later)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+
+# Sensitive Data (never commit actual keys)
+stripe_*.key
+*.pem
+*.key
+*.cert
+
+# Database dumps (except seed data)
+*.sql.gz
+*.sql.bz2
+dump.sql
+backup.sql
+
+# Session files
+sessions/
+tmp/
+
+# Cache directories
+cache/
+.cache/

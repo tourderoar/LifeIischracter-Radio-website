@@ -1,0 +1,20 @@
+# Life is Character Radio - Uploads .htaccess
+# Location: /uploads/.htaccess
+
+# Prevent PHP execution in uploads directory
+<FilesMatch "\.ph(p[3-7]?|t|tml)$">
+    Require all denied
+</FilesMatch>
+
+# Only allow image files
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    Require all granted
+</FilesMatch>
+
+# Deny everything else
+Require all denied
+
+# Disable script execution
+Options -ExecCGI
+AddHandler cgi-script .php .php3 .php4 .php5 .php7 .phtml .pl .py .jsp .asp .sh .cgi
+RemoveHandler .php .php3 .php4 .php5 .php7 .phtml .pl .py .jsp .asp .sh .cgi

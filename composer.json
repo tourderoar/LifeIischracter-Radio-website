@@ -1,0 +1,26 @@
+{
+    "name": "life-is-character-radio/website",
+    "description": "Life is Character Radio - Dynamic Website with Payment Integration",
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "stripe/stripe-php": "^13.0"
+    },
+    "autoload": {
+        "files": [
+            "includes/config.php",
+            "includes/db.php",
+            "includes/auth.php",
+            "includes/mail.php",
+            "includes/stripe.php",
+            "includes/response.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

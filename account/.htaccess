@@ -1,0 +1,10 @@
+# Life is Character Radio - Account .htaccess
+# Location: /account/.htaccess
+
+RewriteEngine On
+RewriteBase /tour_update/life/account/
+
+# Remove .php extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]

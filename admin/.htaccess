@@ -1,0 +1,14 @@
+# Life is Character Radio - Admin .htaccess
+# Location: /admin/.htaccess
+
+RewriteEngine On
+RewriteBase /tour_update/life/admin/
+
+# Remove .php extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Redirect to dashboard if accessing admin root
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^$ index.php [L]
