@@ -29,6 +29,9 @@ _backup*/
 *.bak
 *.old
 
+# Archives
+*.zip
+
 # IDE & Editor Files
 .vscode/
 .idea/
