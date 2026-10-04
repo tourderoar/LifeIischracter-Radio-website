@@ -27,24 +27,39 @@ function getAllAdminEmails(): array {
 /**
  * Send email via Zeptomail or log locally
  */
-function sendEmail(string $to, string $subject, string $html, ?string $name = null): bool {
-    return SEND_EMAILS ? sendViaZeptomail($to, $subject, $html, $name) : logEmail($to, $subject, $html);
+function sendEmail(string $to, string $subject, string $html, ?string $name = null, ?string $replyTo = null): bool {
+    return SEND_EMAILS
+        ? sendViaZeptomail($to, $subject, $html, $name, $replyTo)
+        : logEmail($to, $subject, $html, $replyTo);
 }
 
 /**
  * Send via Zeptomail API
+ *
+ * Everything sends from ZEPTOMAIL_FROM_EMAIL, since Zeptomail only accepts
+ * senders on a domain verified against the connected Agent.
+ *
+ * $replyTo points replies at a monitored inbox without changing the sender,
+ * which carries no such restriction. Zeptomail expects reply_to as an array
+ * of objects, unlike from, which is a single object.
  */
-function sendViaZeptomail(string $to, string $subject, string $html, ?string $name): bool {
+function sendViaZeptomail(string $to, string $subject, string $html, ?string $name, ?string $replyTo = null): bool {
+    $payload = [
+        'from' => ['address' => ZEPTOMAIL_FROM_EMAIL, 'name' => ZEPTOMAIL_FROM_NAME],
+        'to' => [['email_address' => ['address' => $to, 'name' => $name ?? $to]]],
+        'subject' => $subject,
+        'htmlbody' => $html
+    ];
+
+    if ($replyTo) {
+        $payload['reply_to'] = [['address' => $replyTo, 'name' => ZEPTOMAIL_FROM_NAME]];
+    }
+
     $ch = curl_init(ZEPTOMAIL_API_URL);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode([
-            'from' => ['address' => ZEPTOMAIL_FROM_EMAIL, 'name' => ZEPTOMAIL_FROM_NAME],
-            'to' => [['email_address' => ['address' => $to, 'name' => $name ?? $to]]],
-            'subject' => $subject,
-            'htmlbody' => $html
-        ]),
+        CURLOPT_POSTFIELDS => json_encode($payload),
         CURLOPT_HTTPHEADER => [
             'Authorization: Zoho-enczapikey ' . ZEPTOMAIL_API_KEY,
             'Content-Type: application/json'
@@ -62,12 +77,14 @@ function sendViaZeptomail(string $to, string $subject, string $html, ?string $na
 /**
  * Log email locally
  */
-function logEmail(string $to, string $subject, string $html): bool {
+function logEmail(string $to, string $subject, string $html, ?string $replyTo = null): bool {
     $dir = dirname(MAIL_LOG_FILE);
     if (!is_dir($dir)) mkdir($dir, 0755, true);
-    
+
     $log = "\n" . str_repeat('=', 80) . "\n" .
-           "Date: " . date('Y-m-d H:i:s') . "\nTo: $to\nSubject: $subject\n" .
+           "Date: " . date('Y-m-d H:i:s') . "\nFrom: " . ZEPTOMAIL_FROM_EMAIL .
+           ($replyTo ? "\nReply-To: $replyTo" : '') .
+           "\nTo: $to\nSubject: $subject\n" .
            str_repeat('-', 80) . "\n" . strip_tags($html) . "\n";
     
     return file_put_contents(MAIL_LOG_FILE, $log, FILE_APPEND) !== false;
@@ -142,6 +159,25 @@ function sendNewsletterWelcomeEmail(string $email, string $name): bool {
 }
 
 /**
+ * Send the free 7-day devotional to a funnel signup
+ *
+ * Sent instead of the generic welcome email when a subscriber comes from the
+ * devotional block. Sends from the usual no-reply address, with replies
+ * directed to the monitored inbox.
+ */
+function sendDevotionalEmail(string $email, string $name): bool {
+    return sendEmail($email, "Your free devotional is here", emailTemplate(
+        "Life is a Script: 7 Days to Living with Character",
+        "Hi " . ($name ?: 'Friend') . ",<br><br>Thank you for signing up. Your free 7-day devotional is ready to read.<br><br>" .
+        "Each day takes about five minutes: one scripture, a short reflection, one action step and a prayer. " .
+        "You can read it online or print it to keep.",
+        "Read the Devotional",
+        BASE_URL . "devotional",
+        "Life is a script. Win with character. You can unsubscribe at any time by clicking the link in our emails."
+    ), $name, REPLY_TO_EMAIL);
+}
+
+/**
  * Send event registration confirmation to user
  */
 function sendEventRegistrationEmail(string $email, string $name, array $event, float $amount): bool {
@@ -189,7 +225,7 @@ function sendDonationConfirmationEmail(string $email, string $name, float $amoun
         "Hi $name,<br><br>Thank you for your generous donation of <strong>$" . number_format($amount, 2) . "</strong>. Your support helps us continue our mission.",
         "Visit Our Website",
         BASE_URL,
-        "This email serves as your donation receipt for tax purposes. God bless you!"
+        "This email serves as your donation receipt for tax purposes. " . TAX_DEDUCTIBLE_NOTICE . " God bless you!"
     ), $name);
     
     // Notify all admins
@@ -250,7 +286,7 @@ function sendDonationWithAccountEmail(string $email, string $name, float $amount
             <div class='info-box'>
                 <p><strong>Your Donation:</strong> $" . number_format($amount, 2) . " (" . ucwords($freqText) . ")</p>
             </div>
-            <p style='margin-top:30px;color:#6b7280;font-size:14px'>Click the link above to set your password and activate your account. This link expires in 24 hours. This email serves as your donation receipt for tax purposes. God bless you!</p>
+            <p style='margin-top:30px;color:#6b7280;font-size:14px'>Click the link above to set your password and activate your account. This link expires in 24 hours. This email serves as your donation receipt for tax purposes. " . TAX_DEDUCTIBLE_NOTICE . " God bless you!</p>
         </div>
         <div class='footer'><p>&copy; " . date('Y') . " " . SITE_NAME . ". All rights reserved.</p>
         <p>You're receiving this email because you made a donation on our website.</p></div>

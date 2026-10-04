@@ -25,6 +25,9 @@ $userName = $_SESSION['user_name'] ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'Home' ?> - <?= SITE_NAME ?></title>
     <meta name="description" content="<?= $pageDescription ?? 'Faith-based radio and TV broadcast program. Life is a script, win with character through God\'s Word.' ?>">
+    <?php if (!empty($pageRobots)): ?>
+    <meta name="robots" content="<?= htmlspecialchars($pageRobots) ?>">
+    <?php endif; ?>
     <meta property="og:title" content="<?= $pageTitle ?? 'Home' ?> - <?= SITE_NAME ?>">
     <meta property="og:description" content="<?= $pageDescription ?? 'Faith-based radio and TV broadcast program.' ?>">
     
@@ -50,7 +53,9 @@ $userName = $_SESSION['user_name'] ?? '';
                 'navy': '#001A2E',
                 'gold': '#FFD700',
                 'silver': '#C0C0C0'
-              }
+              },
+              'spotify': '#1DB954',
+              'youtube': '#FF0000'
             },
             fontFamily: {
               'cinematic': ['Georgia', 'Times New Roman', 'serif'],

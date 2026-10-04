@@ -296,7 +296,7 @@ async function registerForEvent(eventId, cost) {
     if (!confirm('Register for this event?')) return;
     
     try {
-        const result = await API.post('events/register/', {event_id: eventId});
+        const result = await API.post('events/register', {event_id: eventId});
         
         if (result.data.status === 'completed') {
             showNotification('Successfully registered!');
@@ -334,7 +334,7 @@ function setDonationAmount(amount) {
 
 async function submitDonation(formData) {
     try {
-        const result = await API.post('donations/create/', formData);
+        const result = await API.post('donations/create', formData);
         
         if (result.data.client_secret) {
             await processPayment(result.data.client_secret, formData.amount, 'donation');
@@ -375,7 +375,7 @@ async function submitContactForm(e) {
     };
     
     try {
-        await API.post('contact/submit/', data);
+        await API.post('contact/submit', data);
         showNotification('Message sent! We\'ll respond soon.');
         form.reset();
     } catch (error) {
@@ -395,7 +395,7 @@ async function submitPrayerRequest(e) {
     };
     
     try {
-        await API.post('prayer/submit/', data);
+        await API.post('prayer/submit', data);
         showNotification('Prayer request submitted. We are praying for you!');
         form.reset();
     } catch (error) {
@@ -403,24 +403,36 @@ async function submitPrayerRequest(e) {
     }
 }
 
-// Newsletter
-async function subscribeNewsletter(e) {
+// Free 7-day devotional signup (homepage, episodes and about pages)
+async function requestDevotional(e) {
     e.preventDefault();
     const form = e.target;
-    const emailInput = form.querySelector('input[type="email"]');
-    const nameInput = form.querySelector('input[name="name"]');
-    
+    const button = form.querySelector('button[type="submit"]');
+    const original = button?.textContent;
+
     const data = {
-        name: nameInput?.value || '',
-        email: emailInput.value
+        firstName: form.querySelector('input[name="firstName"]')?.value || '',
+        email: form.querySelector('input[name="email"]').value,
+        source: 'devotional',
+        tags: ['devotional-funnel']
     };
-    
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending...';
+    }
+
     try {
-        await API.post('newsletter/subscribe/', data);
-        showNotification('Successfully subscribed! Check your email for confirmation.');
+        const result = await API.post('newsletter/subscribe', data);
+        showNotification(result.message || 'Your devotional is on its way! Check your inbox.');
         form.reset();
     } catch (error) {
         showNotification(error.message, 'error');
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = original;
+        }
     }
 }
 
@@ -451,10 +463,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Form Event Listeners
-    const newsletterForm = document.getElementById('newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', subscribeNewsletter);
-    }
+    document.querySelectorAll('.devotional-form').forEach(form => {
+        form.addEventListener('submit', requestDevotional);
+    });
 
     const prayerForm = document.getElementById('prayer-form');
     if (prayerForm) {

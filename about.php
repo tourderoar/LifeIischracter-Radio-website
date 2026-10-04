@@ -90,6 +90,18 @@ include __DIR__ . '/includes/header.php';
                     </p>
                 </div>
             </div>
+
+            <!-- Donate funnel -->
+            <div class="mt-12 bg-gradient-to-r from-brand-cyan/10 to-brand-blue/10 p-8 rounded-lg border border-brand-cyan/30 text-center">
+                <h3 class="text-2xl font-bold text-white mb-3">Help Keep This Message on the Air</h3>
+                <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
+                    Life is Character Radio is listener-supported. Your gift funds the broadcasts, episodes
+                    and resources that carry this message to the people who need it most.
+                </p>
+                <a href="<?php echo BASE_URL; ?>donate" class="inline-block bg-brand-cyan text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-brand-blue transition-colors">
+                    <i class="fas fa-heart mr-2"></i>Support Our Ministry
+                </a>
+            </div>
         </div>
 
         <!-- Target Audience -->
@@ -107,6 +119,8 @@ include __DIR__ . '/includes/header.php';
             </div>
         </div>
 
+        <?php require __DIR__ . '/includes/devotional-signup.php'; ?>
+
         <!-- Contact Information -->
         <div class="bg-gradient-to-r from-brand-cyan/10 to-brand-blue/10 p-8 rounded-lg border border-brand-cyan/30 text-center">
             <h2 class="text-2xl font-bold text-brand-cyan mb-6">Get In Touch</h2>
@@ -116,7 +130,7 @@ include __DIR__ . '/includes/header.php';
                     <h3 class="text-lg font-semibold text-white mb-2">Location</h3>
                     <p class="text-gray-300">
                         2860 South State Hwy 161<br>
-                        Ste 160 211<br>
+                        STE160-211<br>
                         Grand Prairie, TX 75052
                     </p>
                 </div>
@@ -146,6 +160,9 @@ include __DIR__ . '/includes/header.php';
                 </a>
                 <a href="<?php echo BASE_URL; ?>episodes" class="border-2 border-brand-cyan text-brand-cyan px-6 py-3 rounded-lg font-semibold hover:bg-brand-cyan hover:text-gray-900 transition-colors">
                     Listen Now
+                </a>
+                <a href="#free-devotional" class="border-2 border-brand-cyan text-brand-cyan px-6 py-3 rounded-lg font-semibold hover:bg-brand-cyan hover:text-gray-900 transition-colors">
+                    Get the Free Devotional
                 </a>
             </div>
         </div>

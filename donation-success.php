@@ -18,7 +18,7 @@ include __DIR__ . '/includes/header.php';
             <div class="mb-6">
                 <i class="fas fa-heart text-[#FFD700] text-6xl mb-4"></i>
                 <h1 class="font-['Cinzel'] text-4xl text-[#00E5FF] mb-4">Thank You for Your Generosity!</h1>
-                <p class="text-white font-['Inter'] text-lg mb-6">Your donation has been received and will help us continue our mission. May God bless you abundantly!</p>
+                <p class="text-white font-['Inter'] text-lg mb-6">Thank you for partnering with <?= SITE_NAME ?>! A receipt is on its way to your email.</p>
             </div>
             
             <?php if ($newAccount): ?>
@@ -35,7 +35,7 @@ include __DIR__ . '/includes/header.php';
             
             <div class="bg-[#001A2E]/50 rounded-xl p-6 mb-6">
                 <h2 class="font-['Cinzel'] text-2xl text-[#FFD700] mb-4">Donation Details</h2>
-                <p class="text-white font-['Inter'] mb-4">A receipt has been sent to your email address for tax purposes.</p>
+                <p class="text-white font-['Inter'] mb-4"><?= TAX_DEDUCTIBLE_NOTICE ?></p>
                 <p class="text-gray-300 font-['Inter'] text-sm italic">"Give, and it will be given to you. A good measure, pressed down, shaken together and running over..." - Luke 6:38</p>
             </div>
             

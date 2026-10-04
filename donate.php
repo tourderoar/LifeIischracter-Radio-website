@@ -44,37 +44,6 @@ $userEmail = $_SESSION['user_email'] ?? '';
             <div class="bg-gray-700/50 p-8 rounded-lg border border-brand-cyan/20 sticky top-24">
                 <h2 class="text-3xl font-bold text-brand-cyan mb-6">Make a Donation</h2>
                 
-                <!-- Donation Tiers -->
-                <div class="mb-8">
-                    <h3 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wide">Quick Select</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        <button onclick="selectDonationAmount(25)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
-                            <div class="text-2xl font-bold text-brand-cyan">$25</div>
-                            <div class="text-xs text-gray-400 group-hover:text-gray-300">Supporter</div>
-                        </button>
-                        <button onclick="selectDonationAmount(50)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
-                            <div class="text-2xl font-bold text-brand-cyan">$50</div>
-                            <div class="text-xs text-gray-400 group-hover:text-gray-300">Advocate</div>
-                        </button>
-                        <button onclick="selectDonationAmount(100)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
-                            <div class="text-2xl font-bold text-brand-cyan">$100</div>
-                            <div class="text-xs text-gray-400 group-hover:text-gray-300">Champion</div>
-                        </button>
-                        <button onclick="selectDonationAmount(250)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
-                            <div class="text-2xl font-bold text-brand-cyan">$250</div>
-                            <div class="text-xs text-gray-400 group-hover:text-gray-300">Victory Partner</div>
-                        </button>
-                        <button onclick="selectDonationAmount(500)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
-                            <div class="text-2xl font-bold text-brand-cyan">$500</div>
-                            <div class="text-xs text-gray-400 group-hover:text-gray-300">Character Builder</div>
-                        </button>
-                        <button onclick="selectDonationAmount(1000)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
-                            <div class="text-2xl font-bold text-brand-cyan">$1000</div>
-                            <div class="text-xs text-gray-400 group-hover:text-gray-300">Legacy Maker</div>
-                        </button>
-                    </div>
-                </div>
-
                 <form id="donation-form" class="space-y-6">
                     <!-- Anonymous Donation Checkbox (Only for guests) -->
                     <?php if (!$isLoggedIn): ?>
@@ -89,23 +58,55 @@ $userEmail = $_SESSION['user_email'] ?? '';
                     </div>
                     <?php endif; ?>
 
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Donation Amount *</label>
+                    <!-- Amount: the presets and the free-entry field are one control group,
+                         so the tiers read as shortcuts rather than the only options. -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wide">Choose an amount</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <button type="button" data-amount="25" onclick="selectDonationAmount(25)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-2xl font-bold text-brand-cyan">$25</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Supporter</div>
+                            </button>
+                            <button type="button" data-amount="50" onclick="selectDonationAmount(50)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-2xl font-bold text-brand-cyan">$50</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Advocate</div>
+                            </button>
+                            <button type="button" data-amount="100" onclick="selectDonationAmount(100)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-2xl font-bold text-brand-cyan">$100</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Champion</div>
+                            </button>
+                            <button type="button" data-amount="250" onclick="selectDonationAmount(250)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-2xl font-bold text-brand-cyan">$250</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Victory Partner</div>
+                            </button>
+                            <button type="button" data-amount="500" onclick="selectDonationAmount(500)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-2xl font-bold text-brand-cyan">$500</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Character Builder</div>
+                            </button>
+                            <button type="button" data-amount="1000" onclick="selectDonationAmount(1000)" class="donation-tier border-2 border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-2xl font-bold text-brand-cyan">$1000</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Legacy Maker</div>
+                            </button>
+                            <button type="button" id="other-amount-tier" onclick="chooseOtherAmount()" class="donation-tier col-span-2 md:col-span-3 border-2 border-dashed border-gray-600 hover:border-brand-cyan text-center p-4 rounded-lg transition-all group">
+                                <div class="text-lg font-semibold text-brand-cyan">Other amount</div>
+                                <div class="text-xs text-gray-400 group-hover:text-gray-300">Give any amount you choose</div>
+                            </button>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="donation-amount" class="block text-sm font-medium text-gray-300 mb-2">Or enter any amount *</label>
                             <div class="relative">
                                 <span class="absolute left-4 top-3 text-gray-400 text-lg">$</span>
                                 <input type="number" id="donation-amount" name="amount" min="1" step="0.01" required
                                        class="w-full pl-8 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white text-lg focus:outline-none focus:border-brand-cyan transition-colors"
-                                       placeholder="0.00">
+                                       placeholder="Enter any amount">
                             </div>
-                        </div>
-                        <div>
-                            <!-- Hidden frequency field - only one-time for now -->
-                            <input type="hidden" name="donationType" id="donation-type" value="one-time">
-                            <!-- Spacer to maintain grid layout -->
-                            <div class="h-full"></div>
+                            <p id="amount-echo" class="text-gray-400 text-xs mt-2">Any amount helps.</p>
                         </div>
                     </div>
+
+                    <!-- Hidden frequency field - only one-time for now -->
+                    <input type="hidden" name="donationType" id="donation-type" value="one-time">
 
                     <div class="grid md:grid-cols-2 gap-4">
                         <div id="donor-name-section">
@@ -164,7 +165,7 @@ $userEmail = $_SESSION['user_email'] ?? '';
                             </div>
                             <div>
                                 <h4 class="text-lg font-semibold text-white mb-2">Radio & TV Broadcasting</h4>
-                                <p class="text-gray-300">Your support helps us reach thousands of listeners weekly with life-changing messages of hope, character, and victory.</p>
+                                <p class="text-gray-300">Your support helps us reach more listeners every week.</p>
                             </div>
                         </div>
                         
@@ -200,34 +201,13 @@ $userEmail = $_SESSION['user_email'] ?? '';
                     </div>
                 </div>
 
-                <!-- Testimonial -->
-                <div class="bg-gradient-to-br from-brand-cyan/10 to-brand-blue/10 p-8 rounded-lg border border-brand-cyan/30">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-quote-left text-3xl text-brand-cyan"></i>
-                        </div>
-                        <blockquote class="text-lg text-gray-300 italic">
-                            "Life is Character Radio changed my perspective on challenges. I learned to see them as opportunities to build character and trust God's script for my life. This ministry deserves our support!"
-                        </blockquote>
-                    </div>
-                    <div class="flex items-center pl-14">
-                        <div class="w-12 h-12 bg-brand-cyan rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-user text-gray-900 text-lg"></i>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-white">Sarah M.</p>
-                            <p class="text-gray-400 text-sm">Regular Listener & Monthly Donor</p>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Tax Deductible Info -->
                 <div class="bg-gray-700/30 p-6 rounded-lg border border-brand-cyan/20">
                     <div class="flex items-start gap-3">
                         <i class="fas fa-info-circle text-brand-cyan text-xl mt-1"></i>
                         <div>
                             <h4 class="font-semibold text-white mb-2">Tax-Deductible Donation</h4>
-                            <p class="text-gray-300 text-sm">Life is Character Radio is a registered ministry. Your donations may be tax-deductible. Please consult your tax advisor for details.</p>
+                            <p class="text-gray-300 text-sm"><?= TAX_DEDUCTIBLE_NOTICE ?></p>
                         </div>
                     </div>
                 </div>
@@ -249,18 +229,68 @@ $userEmail = $_SESSION['user_email'] ?? '';
 // Donation page functionality
 let stripeInstance, stripeElements, cardElement;
 
-function selectDonationAmount(amount) {
-    document.getElementById('donation-amount').value = amount;
-    // Visual feedback
+// Amount selection ------------------------------------------------------
+// The presets and the free-entry field are two views of one value, so the
+// highlight always follows the amount in the field rather than the last
+// button clicked. Typing an amount that isn't a preset selects "Other".
+
+function clearTierHighlight() {
     document.querySelectorAll('.donation-tier').forEach(btn => {
         btn.classList.remove('border-brand-cyan', 'bg-brand-cyan/10');
         btn.classList.add('border-gray-600');
     });
-    event.target.closest('.donation-tier').classList.remove('border-gray-600');
-    event.target.closest('.donation-tier').classList.add('border-brand-cyan', 'bg-brand-cyan/10');
+}
+
+function highlightTier(btn) {
+    clearTierHighlight();
+    if (!btn) return;
+    btn.classList.remove('border-gray-600');
+    btn.classList.add('border-brand-cyan', 'bg-brand-cyan/10');
+}
+
+function updateAmountEcho() {
+    const echo = document.getElementById('amount-echo');
+    if (!echo) return;
+    const value = parseFloat(document.getElementById('donation-amount').value);
+    echo.textContent = value > 0
+        ? "You're giving $" + value.toFixed(2) + " — thank you."
+        : 'Any amount helps.';
+}
+
+// Point the highlight at whichever tile matches the current amount
+function syncTierToAmount() {
+    const value = parseFloat(document.getElementById('donation-amount').value);
+    let matched = null;
+
+    document.querySelectorAll('.donation-tier[data-amount]').forEach(btn => {
+        if (parseFloat(btn.dataset.amount) === value) matched = btn;
+    });
+
+    highlightTier(matched || (value > 0 ? document.getElementById('other-amount-tier') : null));
+    updateAmountEcho();
+}
+
+function selectDonationAmount(amount) {
+    document.getElementById('donation-amount').value = amount;
+    syncTierToAmount();
+}
+
+function chooseOtherAmount() {
+    const input = document.getElementById('donation-amount');
+    input.value = '';
+    highlightTier(document.getElementById('other-amount-tier'));
+    updateAmountEcho();
+    input.focus();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Typing in the amount field re-points the highlight, so a stale preset
+    // can never sit selected next to a different number.
+    const amountInput = document.getElementById('donation-amount');
+    if (amountInput) {
+        amountInput.addEventListener('input', syncTierToAmount);
+    }
+
     // Handle anonymous donation checkbox (only for guests)
     const anonymousCheckbox = document.getElementById('anonymous-donation');
     const donorNameSection = document.getElementById('donor-name-section');

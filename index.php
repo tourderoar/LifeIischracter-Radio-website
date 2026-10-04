@@ -36,14 +36,14 @@ require_once __DIR__ . '/includes/header.php';
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="<?= BASE_URL ?>episodes" class="bg-brand-cyan text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-brand-blue transition-all transform hover:scale-105 shadow-lg hover:shadow-brand-cyan/25">
+            <a href="https://life-is-character.mixlr.com/" class="bg-brand-cyan text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-brand-blue transition-all transform hover:scale-105 shadow-lg hover:shadow-brand-cyan/25">
                 <i class="fas fa-play mr-2"></i>Listen Now
             </a>
             <a href="<?= BASE_URL ?>episodes" class="border-2 border-brand-cyan text-brand-cyan px-8 py-4 rounded-lg font-semibold text-lg hover:bg-brand-cyan hover:text-gray-900 transition-all">
                 <i class="fas fa-video mr-2"></i>Watch Now
             </a>
-            <a href="<?= BASE_URL ?>about" class="text-gray-300 px-8 py-4 rounded-lg font-semibold text-lg hover:text-brand-cyan transition-colors">
-                <i class="fas fa-users mr-2"></i>Join the Movement
+            <a href="https://open.spotify.com/show/4TGAAkFbSA8U0fCOz3L0Fj" target="_blank" class="border-2 border-spotify text-spotify px-8 py-4 rounded-lg font-semibold text-lg hover:bg-spotify hover:text-gray-900 transition-all">
+                <i class="fab fa-spotify mr-2"></i>Listen on Spotify
             </a>
         </div>
     </div>
@@ -108,20 +108,6 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Newsletter Signup -->
-<section class="py-16 bg-gray-800">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4 text-brand-cyan">Stay Connected</h2>
-        <p class="text-gray-300 mb-8">Subscribe to receive encouragement, episode updates, and character-building resources</p>
-        
-        <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input type="email" id="newsletter-email" placeholder="Your email address" 
-                   class="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-brand-cyan" required>
-            <button type="submit" class="bg-brand-cyan text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue transition-colors">
-                Subscribe
-            </button>
-        </form>
-    </div>
-</section>
+<?php require __DIR__ . '/includes/devotional-signup.php'; ?>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

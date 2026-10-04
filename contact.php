@@ -149,7 +149,7 @@ include __DIR__ . '/includes/header.php';
                                 <h3 class="text-lg font-semibold text-white mb-1">Our Location</h3>
                                 <p class="text-gray-300">
                                     2860 South State Hwy 161<br>
-                                    Ste 160 211<br>
+                                    STE160-211<br>
                                     Grand Prairie, TX 75052
                                 </p>
                             </div>

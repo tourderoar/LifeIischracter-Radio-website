@@ -72,6 +72,14 @@ if (!defined('BASE_URL')) define('BASE_URL', getenv('APP_URL') ?: $baseUrl);
 if (!defined('SITE_NAME')) define('SITE_NAME', 'Life is Character Radio');
 if (!defined('SITE_TAGLINE')) define('SITE_TAGLINE', 'Faith. Character. Victory.');
 
+// Tax details shown on the donate page, the donation success page and both
+// donation receipt emails. ORG_EIN is a placeholder until the real Employer
+// Identification Number is available - replace it here and every page and
+// receipt picks it up.
+if (!defined('ORG_EIN')) define('ORG_EIN', getenv('ORG_EIN') ?: '00-0000000');
+if (!defined('TAX_DEDUCTIBLE_NOTICE')) define('TAX_DEDUCTIBLE_NOTICE',
+    SITE_NAME . ' is a 501(c)(3) nonprofit. Your gift is tax-deductible to the extent allowed by law. EIN: ' . ORG_EIN . '.');
+
 // Database Configuration
 if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 if (!defined('DB_NAME')) define('DB_NAME', getenv('DB_NAME') ?: 'life_character_radio');
@@ -96,6 +104,9 @@ if (!defined('STRIPE_SECRET_KEY')) {
 if (!defined('ZEPTOMAIL_API_URL')) define('ZEPTOMAIL_API_URL', 'https://api.zeptomail.com/v1.1/email');
 if (!defined('ZEPTOMAIL_API_KEY')) define('ZEPTOMAIL_API_KEY', getenv('ZEPTOMAIL_API_KEY') ?: 'YOUR_ZEPTOMAIL_API_KEY');
 if (!defined('ZEPTOMAIL_FROM_EMAIL')) define('ZEPTOMAIL_FROM_EMAIL', 'noreply@lifeischaracterradio.com');
+// Monitored inbox used as Reply-To. Emails still send FROM the no-reply
+// address on the verified domain, but replies reach a human.
+if (!defined('REPLY_TO_EMAIL')) define('REPLY_TO_EMAIL', getenv('REPLY_TO_EMAIL') ?: 'contact@lifeischaracterradio.com');
 if (!defined('ZEPTOMAIL_FROM_NAME')) define('ZEPTOMAIL_FROM_NAME', SITE_NAME);
 if (!defined('SEND_EMAILS')) define('SEND_EMAILS', ENVIRONMENT === 'production');
 

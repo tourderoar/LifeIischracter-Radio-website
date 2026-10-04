@@ -91,3 +91,4 @@ tmp/
 # Cache directories
 cache/
 .cache/
+setup/

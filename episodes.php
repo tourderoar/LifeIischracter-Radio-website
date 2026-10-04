@@ -20,9 +20,12 @@ include __DIR__ . '/includes/header.php';
         <!-- Hero Section -->
         <div class="text-center mb-16">
             <h1 class="text-5xl md:text-6xl font-bold font-cinematic mb-6 text-brand-cyan">Episodes</h1>
-            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
                 Discover wisdom for character-driven living through our faith-based episodes
             </p>
+            <a href="https://www.youtube.com/@lifeischaracterradio959" target="_blank" class="inline-block border-2 border-youtube text-youtube px-6 py-3 rounded-lg font-semibold hover:bg-youtube hover:text-white transition-all">
+                <i class="fab fa-youtube mr-2"></i>Watch on YouTube
+            </a>
         </div>
 
         <!-- Filter Controls -->
@@ -59,6 +62,8 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 </section>
+
+<?php require __DIR__ . '/includes/devotional-signup.php'; ?>
 
 <!-- Audio Player (Hidden by default) -->
 <div id="audio-player" class="hidden fixed bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 z-40 shadow-2xl">

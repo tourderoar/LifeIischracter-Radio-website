@@ -21,7 +21,7 @@ if (!defined('BASE_URL')) require_once __DIR__ . '/config.php';
                         <span class="font-bold text-xl text-brand-cyan"><?= SITE_NAME ?></span>
                     </div>
                     <div class="space-y-3 text-gray-400">
-                        <p><i class="fas fa-map-marker-alt mr-3 text-brand-cyan"></i>2860 South State Hwy 161<br>Ste 160 211, Grand Prairie, TX 75052</p>
+                        <p><i class="fas fa-map-marker-alt mr-3 text-brand-cyan"></i>2860 South State Hwy 161<br>STE160-211, Grand Prairie, TX 75052</p>
                         <p><i class="fas fa-phone mr-3 text-brand-cyan"></i>(682) 701-3557</p>
                         <p><i class="fas fa-envelope mr-3 text-brand-cyan"></i><a href="mailto:contact@lifeischaracterradio.com" class="hover:text-brand-cyan">contact@lifeischaracterradio.com</a></p>
                     </div>
