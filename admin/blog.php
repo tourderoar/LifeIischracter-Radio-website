@@ -299,7 +299,7 @@ function renderPosts(postsData) {
                                     ${post.status === 'published' ? 'Published' : 'Draft'}
                                 </span>
                             </div>
-                            <p class="text-gray-600 text-sm mb-3">${escapeHtml(post.excerpt || post.content.substring(0, 150) + '...')}</p>
+                            <p class="text-gray-600 text-sm mb-3">${escapeHtml(postPreview(post))}</p>
                             <div class="flex flex-wrap gap-2 mb-2">
                                 ${post.categories.map(cat => `<span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">${escapeHtml(cat.name)}</span>`).join('')}
                             </div>
@@ -640,6 +640,16 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+function toPlainText(html) {
+    if (!html) return '';
+    return new DOMParser().parseFromString(html, 'text/html').body.textContent.trim();
+}
+
+function postPreview(post, max = 150) {
+    const text = toPlainText(post.excerpt) || toPlainText(post.content);
+    return text.length > max ? text.slice(0, max).trimEnd() + '...' : text;
 }
 </script>
 

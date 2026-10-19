@@ -174,8 +174,17 @@ try {
             
             $published_at = ($status === 'published') ? date('Y-m-d H:i:s') : null;
             
-            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, content, excerpt, featured_image, scripture_reference, tags, status, created_by, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$title, $slug, $content, $excerpt, $featured_image, $scripture_reference, $tags, $status, $_SESSION['admin_id'], $published_at]);
+            // Credit the admin who created the post. Without this the column
+            // default ('Paul Kumeni Agbo') would be applied to every post.
+            $author_name = $_SESSION['admin_name'] ?? '';
+            if ($author_name === '') {
+                $stmt = $pdo->prepare("SELECT full_name FROM admins WHERE id = ?");
+                $stmt->execute([$_SESSION['admin_id']]);
+                $author_name = $stmt->fetchColumn() ?: 'Life is Character Radio';
+            }
+
+            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, content, excerpt, featured_image, scripture_reference, tags, author_name, status, created_by, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$title, $slug, $content, $excerpt, $featured_image, $scripture_reference, $tags, $author_name, $status, $_SESSION['admin_id'], $published_at]);
             
             $post_id = $pdo->lastInsertId();
             

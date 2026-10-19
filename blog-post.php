@@ -18,7 +18,7 @@ if (!$slug) {
 }
 
 // Fetch post data from API
-$apiUrl = BASE_URL . 'api/blog/post/?slug=' . urlencode($slug);
+$apiUrl = BASE_URL . 'api/blog/post?slug=' . urlencode($slug);
 $response = @file_get_contents($apiUrl);
 
 if (!$response) {

@@ -75,7 +75,9 @@ async function loadFeaturedEpisodes() {
         container.innerHTML = data.data.map(ep => `
             <div class="bg-gradient-to-br from-[#001A2E] to-[#006B8F] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                 <div class="relative pb-[56.25%]">
-                    <iframe class="absolute inset-0 w-full h-full" src="${ep.youtube_url.replace('watch?v=', 'embed/')}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    ${youtubeEmbedUrl(ep.youtube_url)
+                        ? `<iframe class="absolute inset-0 w-full h-full" src="${youtubeEmbedUrl(ep.youtube_url)}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+                        : `<a href="${ep.youtube_url}" target="_blank" class="absolute inset-0 block"><img src="${ep.thumbnail_url || ''}" alt="${ep.title}" class="w-full h-full object-cover"></a>`}
                 </div>
                 <div class="p-6">
                     <h3 class="font-['Cinzel'] text-xl text-[#00E5FF] mb-2 line-clamp-2">${ep.title}</h3>
@@ -91,6 +93,20 @@ async function loadFeaturedEpisodes() {
 }
 
 // Episodes Page
+// Mirrors extractYouTubeId() in api/admin/episodes.php.
+function youtubeEmbedUrl(url) {
+    if (!url) return '';
+    const patterns = [
+        /(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/(?:embed|v|shorts|live)\/([a-zA-Z0-9_-]{11})/
+    ];
+    for (const re of patterns) {
+        const match = url.match(re);
+        if (match) return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    return '';
+}
+
 async function loadEpisodes(topicId = null, status = null) {
     const container = document.getElementById('episodes-list') || document.getElementById('episodes-grid');
     const loadingState = document.getElementById('loading-state');
@@ -127,7 +143,9 @@ async function loadEpisodes(topicId = null, status = null) {
         container.innerHTML = data.data.map(ep => `
             <div class="bg-gradient-to-br from-[#001A2E] to-[#006B8F] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                 <div class="relative pb-[56.25%]">
-                    <iframe class="absolute inset-0 w-full h-full" src="${ep.youtube_url.replace('watch?v=', 'embed/')}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    ${youtubeEmbedUrl(ep.youtube_url)
+                        ? `<iframe class="absolute inset-0 w-full h-full" src="${youtubeEmbedUrl(ep.youtube_url)}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+                        : `<a href="${ep.youtube_url}" target="_blank" class="absolute inset-0 block"><img src="${ep.thumbnail_url || ''}" alt="${ep.title}" class="w-full h-full object-cover"></a>`}
                 </div>
                 <div class="p-6">
                     <h3 class="font-['Cinzel'] text-xl text-[#00E5FF] mb-2">${ep.title}</h3>
